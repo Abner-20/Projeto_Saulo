@@ -7,9 +7,11 @@ import numpy as np
 from models.color_model import ColorModel
 from models.histogram_model import HistogramModel
 from models.threshold_model import ThresholdModel
+from models.transform_model import TransformModel 
+from models.spatial_filter_model import SpatialFilterModel # NOVO IMPORTE
 
 # Model agora herda todas as funções de processamento
-class Model(ColorModel, HistogramModel, ThresholdModel):
+class Model(ColorModel, HistogramModel, ThresholdModel, TransformModel, SpatialFilterModel):
     
     def __init__(self):
         self.image = None
@@ -38,6 +40,7 @@ class Model(ColorModel, HistogramModel, ThresholdModel):
     def to_tk_image(self, cv_image):
         """Converte uma imagem OpenCV BGR para formato Tkinter."""
         try:
+            # Corrigido: Apenas uma conversão BGR2RGB é necessária.
             rgb = cv2.cvtColor(cv_image, cv2.COLOR_BGR2RGB)
             img = Image.fromarray(rgb)
             return ImageTk.PhotoImage(img)
@@ -47,6 +50,5 @@ class Model(ColorModel, HistogramModel, ThresholdModel):
 
     # ========== Operações de PDI ==========
     
-    # NOTA: Os métodos convert_to_gray() e equalize_histogram()
-    # são herdados automaticamente de color_model.py e histogram_model.py
-    # Removemos as versões duplicadas que estavam aqui.
+    # Todos os métodos de processamento (convert_to_gray, resize_image,
+    # apply_blur, etc.) são herdados das classes Model importadas.
